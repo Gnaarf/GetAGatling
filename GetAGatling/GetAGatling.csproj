@@ -52,9 +52,9 @@
   <ItemGroup>
     <Compile Include="Code\GameStates\GameState.cs" />
     <Compile Include="Code\GameStates\IGameState.cs" />
-    <Compile Include="Code\GameStates\InGame.cs" />
-    <Compile Include="Code\GameStates\IngameElements\Player.cs" />
-    <Compile Include="Code\GameStates\MainMenu.cs" />
+    <Compile Include="Code\GameStates\MainGame\MainGame.cs" />
+    <Compile Include="Code\GameStates\MainGame\Player\Player.cs" />
+    <Compile Include="Code\GameStates\MainMenu\MainMenu.cs" />
     <Compile Include="Code\GameTime.cs" />
     <Compile Include="Code\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
