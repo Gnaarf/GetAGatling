@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intro2D-02-Beispiel", "Intro2D-02-Beispiel\Intro2D-02-Beispiel.csproj", "{0EE01A10-87BF-4274-AB2E-DFC827C4B521}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetAGatling", "GetAGatling\GetAGatling.csproj", "{744A9347-4DD7-44F1-A05D-3E5CEE15DAAA}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0EE01A10-87BF-4274-AB2E-DFC827C4B521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EE01A10-87BF-4274-AB2E-DFC827C4B521}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EE01A10-87BF-4274-AB2E-DFC827C4B521}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EE01A10-87BF-4274-AB2E-DFC827C4B521}.Release|Any CPU.Build.0 = Release|Any CPU
 		{744A9347-4DD7-44F1-A05D-3E5CEE15DAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{744A9347-4DD7-44F1-A05D-3E5CEE15DAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{744A9347-4DD7-44F1-A05D-3E5CEE15DAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
