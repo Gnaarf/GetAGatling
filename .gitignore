@@ -6,7 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+*.csproj
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -194,4 +194,3 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-/GetAGatling/GetAGatling.csproj
