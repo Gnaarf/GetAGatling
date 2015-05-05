@@ -34,8 +34,6 @@ namespace GameProject2D
 
         public GameState update()
         {
-            Console.WriteLine(PhysicWorld.GetGroundBody());
-
             player.update();
             PhysicWorld.Step((float)Program.gameTime.EllapsedTime.TotalSeconds, 10, 10);
 
