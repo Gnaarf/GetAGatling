@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML;
 using SFML.Graphics;
 using SFML.Window;
+using Box2DX;
 
 namespace GameProject2D
 {
@@ -15,7 +11,6 @@ namespace GameProject2D
         Vector2f position { get { return sprite.Position; } set { sprite.Position = value; } }
         Vector2f movement { get; set; }
         Vector2f size { get { return sprite.Size; } set { sprite.Size = value; } }
-
 
         public Player(Vector2f position)
         {

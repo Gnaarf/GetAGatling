@@ -21,7 +21,7 @@ namespace GameProject2D
         {
             // initialize window and view
             win = new RenderWindow(new VideoMode(800, 600), "2D Game Project");
-            view = new View(new Vector2f(win.Size.X / 2, win.Size.Y / 2), new Vector2f(win.Size.X, win.Size.Y));
+            view = new View(new Vector2(win.Size.X / 2, win.Size.Y / 2), new Vector2(win.Size.X, win.Size.Y));
 
             // exit Program, when window is being closed
             win.Closed += (object sender, EventArgs e) => { (sender as Window).Close(); };
