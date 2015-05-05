@@ -11,47 +11,36 @@ namespace GameProject2D
     class InGame : IGameState
     {
         Player player;
-        World PhysicWorld = new Box2DX.Dynamics.World(new AABB(), new Vec2(0F, 9.81F), false);
-
+        World PhysicWorld;
+        Platform plat;
+        AABB worldAABB = new AABB();
+        
         public InGame()
         {
-            player = new Player(new Vector2f(10F, 10F));
+            worldAABB.LowerBound.Set( 0.0f, 0.0f);
+            worldAABB.UpperBound.Set(600.0f, 550.0f);
+            PhysicWorld = new Box2DX.Dynamics.World(worldAABB, new Vec2(0F, 9.81F), false);
+            player = new Player(PhysicWorld,new Vector2f(10F, 10F));
 
-            for (int i = 0; i < 100; i++)
-            {
-                BodyDef body = new BodyDef();
-                body.Position = new Vec2(200F, -i * 10F);
-                body.MassData.Mass = 0.1F + Rand.Value(0F, 3.1F);
-                body.LinearDamping = 0.1F;
-
-                PhysicWorld.CreateBody(body);
-            }
-            BodyDef plane = new BodyDef();
-            plane.Position = new Vec2(200F, 30F);
-
-            PhysicWorld.CreateBody(plane);
+//            plat = new Platform(PhysicWorld, "Textures/MainMenu_Background.jpg", 400, 400, 100, 400);
+            plat = new Platform(PhysicWorld, "Textures/Ground.png", 400, 500, 50, 50);
         }
 
         public GameState update()
-        {
+        {   
             player.update();
             PhysicWorld.Step((float)Program.gameTime.EllapsedTime.TotalSeconds, 10, 10);
-
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) 
+            {
+                return GameState.MainMenu;
+            }
             return GameState.InGame;
         }
 
         public void draw(RenderWindow win, View view)
         {
-            RectangleShape a = new RectangleShape(new Vector2(10F, 10F));
 
-            Body phyBody = PhysicWorld.GetBodyList();
-            while(phyBody.GetNext() != null)
-            {
-                a.Position = (Vector2)phyBody.GetPosition();
-                win.Draw(a);
-                phyBody = phyBody.GetNext();
-            }
-
+            plat.draw(win, view);
             player.draw(win, view);
         }
     }

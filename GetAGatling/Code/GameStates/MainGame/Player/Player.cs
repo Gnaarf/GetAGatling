@@ -2,6 +2,8 @@
 using SFML.Graphics;
 using SFML.Window;
 using Box2DX;
+using Box2DX.Dynamics;
+using Box2DX.Collision;
 
 namespace GameProject2D
 {
@@ -11,16 +13,32 @@ namespace GameProject2D
         Vector2 position { get { return sprite.Position; } set { sprite.Position = value; } }
         Vector2 movement { get; set; }
         Vector2 size { get { return sprite.Size; } set { sprite.Size = value; } }
-
-        public Player(Vector2 position)
+        Body body;
+        public Player(World world, Vector2 position)
         {
+            
             this.sprite = new RectangleShape(new Vector2(1F, 1F));
-            this.sprite.FillColor = Color.Black;
+            this.sprite.FillColor = SFML.Graphics.Color.Black;
 
             this.position = position;
             this.movement = new Vector2(0F, 0F);
             
             this.size = new Vector2(100F, 100F);
+
+
+            BodyDef bodydef = new BodyDef();
+            bodydef.Position.Set(position.X / 30.0F, position.Y / 30.0F);
+            body = world.CreateBody(bodydef);
+
+            PolygonDef shapeDef = new PolygonDef();
+            shapeDef.SetAsBox((this.size.X) / 30.0F, (this.size.Y) / 30.0F);
+            shapeDef.Density = 1.0f;
+            shapeDef.Friction = 0.0f;
+
+
+            body.SetUserData(sprite);
+            body.CreateShape(shapeDef);
+            body.SetMassFromShapes();
         }
 
         public void update()

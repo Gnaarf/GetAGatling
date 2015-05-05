@@ -11,29 +11,36 @@ namespace GameProject2D
 {
     class Platform
     {
-        BodyDef bodydef;
         Body body;
-        PolygonDef shapeDef;
         Sprite sprite;
+     
         public Platform(World world, String texture,float positionX, float positionY, float heightX, float heightY) 
         {
-            bodydef = new BodyDef();
+            BodyDef bodydef = new BodyDef();
             bodydef.Position.Set(positionX / 30.0F, positionY / 30.0F);
 
             body = world.CreateBody(bodydef);
-            shapeDef = new PolygonDef();
-            shapeDef.SetAsBox((heightX / 2) / 30.0f, (heightY / 2) / 30.0f);
+            
+            PolygonDef shapeDef = new PolygonDef();
+            shapeDef.SetAsBox( ( heightX )/ 30.0F , ( heightY ) / 30.0F );
             shapeDef.Density = 0.0f;
+            shapeDef.Friction = 0.0f;
 
-            //sprite = new Sprite(new Texture(texture)) { Origin = new Vector2(heightX / 2, heightY / 2) };
+            Texture tex = new Texture(texture);
+            
+            sprite = new Sprite(tex) { Origin = new Vector2(heightX , heightY) };
 
-//            body.SetUserData(sprite);
-
+            body.SetUserData(sprite);
             body.CreateShape(shapeDef);
             body.SetMassFromShapes();
         }
 
-        public void update() { }
+        public void update() 
+        {
+            Sprite sprite = (Sprite)body.GetUserData();
+            sprite.Position = new Vector2( body.GetPosition().X,  body.GetPosition().Y);
+        }
+
         public void draw (RenderWindow win, View view)
         {
             win.Draw(sprite);
