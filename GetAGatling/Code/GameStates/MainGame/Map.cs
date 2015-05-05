@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GetAGatling.Code.GameStates.MainGame
+namespace GameProject2D
 {
     class Map
     {
         // platform with coll
         //
+
+
     }
 }
