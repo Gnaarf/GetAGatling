@@ -26,5 +26,10 @@ namespace GameProject2D
         {
             win.Draw(background);
         }
+
+        public void drawGUI(GUI gui)
+        {
+
+        }
     }
 }

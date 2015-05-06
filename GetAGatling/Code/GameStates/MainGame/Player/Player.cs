@@ -10,9 +10,9 @@ namespace GameProject2D
     public class Player
     {
         RectangleShape sprite;
-        Vector2 position { get { return sprite.Position; } set { sprite.Position = value; } }
-        Vector2 movement { get; set; }
-        Vector2 size { get { return sprite.Size; } set { sprite.Size = value; } }
+        public Vector2 position { get { return sprite.Position; } private set { sprite.Position = value; } }
+        public Vector2 movement { get; private set; }
+        public Vector2 size { get { return sprite.Size; } private set { sprite.Size = value; } }
         Body body;
         public Player(World world, Vector2 position)
         {

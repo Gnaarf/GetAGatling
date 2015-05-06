@@ -16,12 +16,15 @@ namespace GameProject2D
 
         static RenderWindow win;
         static View view;
+        static GUI gui;
         
         static void Main(string[] args)
         {
             // initialize window and view
             win = new RenderWindow(new VideoMode(800, 600), "2D Game Project");
-            view = new View(new Vector2(win.Size.X / 2, win.Size.Y / 2), new Vector2(win.Size.X, win.Size.Y));
+            view = new View();
+            resetView();
+            gui = new GUI(win, view);
 
             // exit Program, when window is being closed
             win.Closed += (object sender, EventArgs e) => { (sender as Window).Close(); };
@@ -44,6 +47,7 @@ namespace GameProject2D
                 // draw current frame
                 win.Clear(new Color(100, 149, 237));    //cornflowerblue ftw!!! 1337
                 state.draw(win, view);
+                state.drawGUI(gui);
                 win.SetView(view);
                 win.Display();
 
@@ -55,7 +59,7 @@ namespace GameProject2D
             }
         }
 
-        private static void handleNewGameState()
+        static void handleNewGameState()
         {
             switch (currentGameState)
             {
@@ -73,6 +77,14 @@ namespace GameProject2D
             }
 
             prevGameState = currentGameState;
+
+            resetView();
+        }
+
+        static void resetView()
+        {
+            view.Center = new Vector2(win.Size.X / 2, win.Size.Y / 2);
+            view.Size = new Vector2(win.Size.X, win.Size.Y);
         }
     }
 }
