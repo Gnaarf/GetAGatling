@@ -18,16 +18,17 @@ namespace GameProject2D
 
         public void draw(Sprite sprite)
         {
-            // work on a copy, instead of the original
+            // work on a copy, instead of the original, for the original could be reused outside this scope
             Sprite spriteCopy = new Sprite(sprite);
 
             // modify sprite, to fit it in the gui
-            float winViewRatio = view.Size.X / ((float)win.Size.X);
-            sprite.Scale *= winViewRatio;
-            sprite.Position = ((view.Center - view.Size / 2F) + sprite.Position * winViewRatio);
+            float viewScale = (float)view.Size.X / win.Size.X;
+
+            spriteCopy.Scale *= viewScale;
+            spriteCopy.Position = view.Center - view.Size / 2F + spriteCopy.Position * viewScale;
 
             // draw the sprite
-            win.Draw(sprite);
+            win.Draw(spriteCopy);
         }
     }
 }
