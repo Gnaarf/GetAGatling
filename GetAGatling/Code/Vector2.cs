@@ -64,6 +64,14 @@ public struct Vector2
     public Vector2 rightNormalized { get { return new Vector2(Y, -X) / length; } }
 
     //------------------------------------------//
+    //           Static Functions               //
+    //------------------------------------------//
+    public static Vector2 lerp(Vector2 from, Vector2 to, float t)
+    {
+        return (1F - t) * from + t * to;
+    }
+
+    //------------------------------------------//
     //           Arithmetic Operators           //
     //------------------------------------------//
     // Addition

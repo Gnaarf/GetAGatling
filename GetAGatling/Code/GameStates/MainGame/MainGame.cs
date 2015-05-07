@@ -24,7 +24,7 @@ namespace GameProject2D
             worldAABB.LowerBound.Set( 0.0f, 0.0f);
             worldAABB.UpperBound.Set(600.0f, 550.0f);
             PhysicWorld = new Box2DX.Dynamics.World(worldAABB, new Vec2(0F, 9.81F), false);
-            player = new Player(PhysicWorld,new Vector2f(10F, 10F));
+            player = new Player(PhysicWorld,new Vector2f(400F, 400F));
 
 //            plat = new Platform(PhysicWorld, "Textures/MainMenu_Background.jpg", 400, 400, 100, 400);
             plat = new Platform(PhysicWorld, "Textures/Ground.png", 400, 500, 50, 50);
@@ -51,20 +51,12 @@ namespace GameProject2D
             if (Keyboard.IsKeyPressed(Keyboard.Key.Add))
                 view.Size = new Vector2(view.Size.X - 1F, view.Size.Y - (view.Size.Y / view.Size.X));
             // move
-            view.Center = lerp(view.Center, player.position + player.size / 2F, 0.001F);
+            view.Center = Vector2.lerp(view.Center, player.position + player.size / 2F, 0.001F);
 
             // draw the actual entities
             plat.draw(win, view);
 
             player.draw(win, view);
-        }
-
-        Vector2 lerp(Vector2 from, Vector2 to, float t)
-        {
-            Vector2 result = new Vector2();
-            result.X = (1F - t) * from.X + t * to.X;
-            result.Y = (1F - t) * from.Y + t * to.Y;
-            return result;
         }
 
         public void drawGUI(GUI gui)
@@ -74,10 +66,8 @@ namespace GameProject2D
             RadarSprite.Position = GameConstants.GUI_RadarCenter - textureSize / 2F;
             gui.draw(RadarSprite);
 
-            Console.WriteLine(player.position);
-
             // draw Player on Radar
-            Vector2 playerRadarPosition = player.position / 100F + GameConstants.GUI_RadarCenter;
+            Vector2 playerRadarPosition = player.position / 50F + GameConstants.GUI_RadarCenter;
             pixelSprite.Color = SFML.Graphics.Color.Red;
             pixelSprite.Position = playerRadarPosition;
             pixelSprite.Scale = new Vector2(3, 3);
