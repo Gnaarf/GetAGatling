@@ -44,19 +44,19 @@ namespace GameProject2D
         public void update()
         {
             float deltaTime = (float)Program.gameTime.EllapsedTime.TotalSeconds;
-            float speed = 1F * deltaTime;
+            float speedFactor = 0.1F * deltaTime;
             
             Vector2 inputMovement = new Vector2(0F, 0F);
 
-            inputMovement.Y += Keyboard.IsKeyPressed(Keyboard.Key.Down) ? speed : 0F;
-            inputMovement.Y += Keyboard.IsKeyPressed(Keyboard.Key.Up) ? -speed : 0F;
+            inputMovement.Y += Keyboard.IsKeyPressed(Keyboard.Key.Down) ? speedFactor : 0F;
+            inputMovement.Y += Keyboard.IsKeyPressed(Keyboard.Key.Up) ? -speedFactor : 0F;
 
-            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Left) ? -speed : 0F;
-            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Right) ? speed : 0F;
+            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Left) ? -speedFactor : 0F;
+            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Right) ? speedFactor : 0F;
 
-            if(inputMovement.Y != 0F || inputMovement.X != 0F)
+            if(inputMovement != Vector2.Zero)
             {
-                movement += inputMovement * speed / (float)Math.Sqrt(inputMovement.X * inputMovement.X + inputMovement.Y * inputMovement.Y);
+                movement += inputMovement.normalize() * speedFactor;
             }
 
             movement *= (1F - deltaTime * 4F);    // friction

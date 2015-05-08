@@ -76,6 +76,7 @@
     <Compile Include="Code\GameStates\GameConstants.cs" />
     <Compile Include="Code\GameStates\GameState.cs" />
     <Compile Include="Code\GameStates\MainGame\Map.cs" />
+    <Compile Include="Code\GameStates\MainGame\GameObject.cs" />
     <Compile Include="Code\GameStates\MainGame\Platform.cs" />
     <Compile Include="Code\GUI.cs" />
     <Compile Include="Code\GameStates\IGameState.cs" />

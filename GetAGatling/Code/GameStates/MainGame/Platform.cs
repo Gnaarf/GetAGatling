@@ -5,40 +5,51 @@ using System;
 
 namespace GameProject2D
 {
-    class Platform
+    class Platform : GameObject
     {
         Body body;
         Sprite sprite;
 
-        public Platform(World world, String texture,float positionX, float positionY, float heightX, float heightY) 
+        public override Vector2 position { get { return body.GetPosition(); } }
+
+        public Platform(World world, String texture, float positionX, float positionY, float height, float width)
+            : this(world, texture, new Vector2(positionX, positionY), new Vector2(height, width))
+        {
+        }
+
+        public Platform(World world, String texture,Vector2 position, Vector2 size)
         {
             BodyDef bodydef = new BodyDef();
-            bodydef.Position.Set(positionX / 30.0F, positionY / 30.0F);
+            bodydef.Position = position;
 
             body = world.CreateBody(bodydef);
             
             PolygonDef shapeDef = new PolygonDef();
-            shapeDef.SetAsBox( ( heightX )/ 30.0F , ( heightY ) / 30.0F );
+            shapeDef.SetAsBox( size.X, size.Y);
             shapeDef.Density = 0.0f;
             shapeDef.Friction = 0.0f;
 
             Texture tex = new Texture(texture);
             
-            sprite = new Sprite(tex) { Origin = new Vector2(heightX , heightY) };
+            sprite = new Sprite(tex) { Position = position.PixelCoord };
 
-            body.SetUserData(sprite);
             body.CreateShape(shapeDef);
             body.SetMassFromShapes();
         }
 
         public void update() 
         {
-            Sprite sprite = (Sprite)body.GetUserData();
-            sprite.Position = new Vector2( body.GetPosition().X,  body.GetPosition().Y);
         }
 
         public void draw (RenderWindow win, View view)
         {
+            sprite.Position = new Vector2(body.GetPosition().X, body.GetPosition().Y);
+
+            AABB aabb;
+            body.GetShapeList().ComputeAABB(out aabb, body.GetXForm());
+            //Vector2 size = aabb.UpperBound - aabb.LowerBound;
+            //sprite.Scale = size.PixelCoord / (Vector2)sprite.Texture.Size;
+            
             win.Draw(sprite);
         }
     }
