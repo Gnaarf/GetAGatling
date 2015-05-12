@@ -5,8 +5,8 @@ using System;
 
 namespace GameProject2D
 {
-    abstract class GameObject
+    public abstract class GameObject
     {
-        public abstract Vector2 position { get; }
+        public abstract Vector2 midPoint { get; }
     }
 }

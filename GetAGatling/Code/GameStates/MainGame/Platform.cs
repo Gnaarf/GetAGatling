@@ -10,47 +10,53 @@ namespace GameProject2D
         Body body;
         Sprite sprite;
 
-        public override Vector2 position { get { return body.GetPosition(); } }
+        public override Vector2 midPoint { get { return body.GetPosition(); } }
+        Vector2 size;
 
-        public Platform(World world, String texture, float positionX, float positionY, float height, float width)
-            : this(world, texture, new Vector2(positionX, positionY), new Vector2(height, width))
+        public Platform(World world, String texture, float midPointX, float midPointY, float width, float height, float angle)
+            : this(world, texture, new Vector2(midPointX, midPointY), new Vector2(width, height), angle)
         {
         }
 
-        public Platform(World world, String texture,Vector2 position, Vector2 size)
+        public Platform(World world, String texture,Vector2 midPoint, Vector2 size, float angle)
         {
             BodyDef bodydef = new BodyDef();
-            bodydef.Position = position;
+            bodydef.Position = midPoint;
+            bodydef.Angle = angle;
 
             body = world.CreateBody(bodydef);
             
             PolygonDef shapeDef = new PolygonDef();
-            shapeDef.SetAsBox( size.X, size.Y);
+            this.size = size;
+
+            // SetAsBox expects radius
+            shapeDef.SetAsBox( size.X / 2F, size.Y / 2F);
             shapeDef.Density = 0.0f;
             shapeDef.Friction = 0.0f;
 
             Texture tex = new Texture(texture);
             
-            sprite = new Sprite(tex) { Position = position.PixelCoord };
+            sprite = new Sprite(tex);
+            sprite.Origin = ((Vector2)sprite.Texture.Size) / 2F;
+            sprite.Position = midPoint.PixelCoord;
 
             body.CreateShape(shapeDef);
             body.SetMassFromShapes();
+
         }
 
-        public void update() 
+        public void update()
         {
         }
 
         public void draw (RenderWindow win, View view)
         {
-            sprite.Position = new Vector2(body.GetPosition().X, body.GetPosition().Y);
+            sprite.Position = midPoint.PixelCoord;
+            sprite.Scale = size.PixelCoord / sprite.Texture.Size;
+            sprite.Rotation = body.GetAngle() * Helper.RadianToDegree;
 
-            AABB aabb;
-            body.GetShapeList().ComputeAABB(out aabb, body.GetXForm());
-            //Vector2 size = aabb.UpperBound - aabb.LowerBound;
-            //sprite.Scale = size.PixelCoord / (Vector2)sprite.Texture.Size;
-            
             win.Draw(sprite);
+
         }
     }
 }

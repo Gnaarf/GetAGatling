@@ -5,6 +5,7 @@ using SFML.Window;
 using Box2DX.Collision;
 using Box2DX.Dynamics;
 using Box2DX.Common;
+using System.Collections.Generic;
 
 namespace GameProject2D
 {
@@ -13,7 +14,8 @@ namespace GameProject2D
         Player player;
 
         World PhysicWorld;
-        Platform plat;
+        Map map = new Map();
+        List<Platform> platforms;
         AABB worldAABB = new AABB();
 
         Sprite RadarSprite = new Sprite(new Texture("Textures/Radar.png"));
@@ -21,18 +23,24 @@ namespace GameProject2D
 
         public InGame()
         {
-            worldAABB.LowerBound.Set( 0.0f, 0.0f);
-            worldAABB.UpperBound.Set(600.0f, 550.0f);
+            worldAABB.LowerBound.Set(-1000.0f, -1000.0f);
+            worldAABB.UpperBound.Set(1000.0f, 1000.0f);
             PhysicWorld = new Box2DX.Dynamics.World(worldAABB, new Vec2(0F, 9.81F), false);
             player = new Player(PhysicWorld,new Vector2f(0F, 0F));
 
-//            plat = new Platform(PhysicWorld, "Textures/MainMenu_Background.jpg", 400, 400, 100, 400);
-            plat = new Platform(PhysicWorld, "Textures/Ground.png", 0, 0, 50, 50);
+            platforms = new List<Platform>();
+            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", 0F, 3F, 10F, 1F, 0F));
+            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", 8F, 4F, 10F, 1F, -Helper.PI / 8F));
         }
 
         public GameState update()
         {   
             player.update();
+            foreach(Platform platform in platforms)
+            {
+                platform.update();
+            }
+
             PhysicWorld.Step((float)Program.gameTime.EllapsedTime.TotalSeconds, 10, 10);
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) 
@@ -51,10 +59,25 @@ namespace GameProject2D
             if (Keyboard.IsKeyPressed(Keyboard.Key.Add))
                 view.Size = new Vector2(view.Size.X - 1F, view.Size.Y - (view.Size.Y / view.Size.X));
             // move
-            view.Center = Vector2.lerp(view.Center, player.position + player.size / 2F, 0.001F);
+            view.Center = Vector2.lerp(view.Center, player.midPoint.PixelCoord + player.size / 2F, 0.001F);
+
+            // draw coordinate-system
+            float stepSize = 1F;
+            pixelSprite.Color = SFML.Graphics.Color.Black;
+            for (int i = -100; i <= 100; ++i)
+            {
+                pixelSprite.Position = new Vector2(0F, i * stepSize).PixelCoord;
+                win.Draw(pixelSprite);
+                pixelSprite.Position = new Vector2(i * stepSize, 0F).PixelCoord;
+                win.Draw(pixelSprite);
+            }
+
 
             // draw the actual entities
-            plat.draw(win, view);
+            foreach (Platform platform in platforms)
+            {
+                platform.draw(win, view);
+            }
 
             player.draw(win, view);
         }
@@ -67,7 +90,7 @@ namespace GameProject2D
             gui.draw(RadarSprite);
 
             // draw Player on Radar
-            Vector2 playerRadarPosition = player.position / 50F + GameConstants.GUI_RADAR_CENTER;
+            Vector2 playerRadarPosition = player.midPoint.PixelCoord / map.size + GameConstants.GUI_RADAR_CENTER;
             pixelSprite.Color = SFML.Graphics.Color.Red;
             pixelSprite.Position = playerRadarPosition;
             pixelSprite.Scale = new Vector2(3, 3);

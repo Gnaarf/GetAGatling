@@ -8,8 +8,7 @@ namespace GameProject2D
 {
     class Map
     {
-        // platform with coll
-        //
+        public Vector2 size = new Vector2(20,20);    //HACK
 
 
     }

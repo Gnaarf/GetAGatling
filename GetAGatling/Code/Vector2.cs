@@ -57,8 +57,10 @@ public struct Vector2
     //------------------------------------------//
     public static Vector2 Zero { get { return new Vector2(0F, 0F); } }
     public static Vector2 One { get { return new Vector2(1F, 1F); } }
-    public static Vector2 Up { get { return new Vector2(0F, 1F); } }
+    public static Vector2 Up { get { return new Vector2(0F, -1F); } }
     public static Vector2 Right { get { return new Vector2(1F, 0F); } }
+    public static Vector2 Down { get { return new Vector2(0F, 1F); } }
+    public static Vector2 Left { get { return new Vector2(-1F, 0F); } }
 
 
     //------------------------------------------//
@@ -136,7 +138,7 @@ public struct Vector2
     /// <summary>divide component-wise</summary>
     public static Vector2 operator /(Vector2 v1, Vector2 v2)
     {
-        return new Vector2(v1.X / v1.Y, v1.Y / v2.Y);
+        return new Vector2(v1.X / v2.X, v1.Y / v2.Y);
     }
     /// <summary>divide both components by factor</summary>
     public static Vector2 operator /(Vector2 v, float f)

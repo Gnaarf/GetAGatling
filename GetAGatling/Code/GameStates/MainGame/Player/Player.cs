@@ -7,33 +7,30 @@ using Box2DX.Collision;
 
 namespace GameProject2D
 {
-    public class Player
+    public class Player : GameObject
     {
-        RectangleShape sprite;
-        public Vector2 position { get { return sprite.Position; } private set { sprite.Position = value; } }
-        public Vector2 movement { get; private set; }
-        public Vector2 size { get { return sprite.Size; } private set { sprite.Size = value; } }
+        Sprite sprite;
+        public override Vector2 midPoint { get { return body.GetPosition(); } }
+        public Vector2 movement { get { return body.GetLinearVelocity(); } private set { body.SetLinearVelocity(value); } }
+        public Vector2 size;
         Body body;
-        public Player(World world, Vector2 position)
+
+        public Player(World world, Vector2 midPoint)
         {
-            
-            this.sprite = new RectangleShape(new Vector2(1F, 1F));
-            this.sprite.FillColor = SFML.Graphics.Color.Black;
+            sprite = new Sprite(new Texture("Textures/pixel.png"));
+            sprite.Origin = ((Vector2)sprite.Texture.Size) / 2F;
+            sprite.Color = SFML.Graphics.Color.Black;
 
-            this.position = position;
-            this.movement = new Vector2(0F, 0F);
-            
-            this.size = new Vector2(100F, 100F);
-
+            this.size = new Vector2(1F, 1F);
 
             BodyDef bodydef = new BodyDef();
-            bodydef.Position.Set(position.X / 30.0F, position.Y / 30.0F);
+            bodydef.Position.Set(midPoint.X, midPoint.Y);
             body = world.CreateBody(bodydef);
-
+            
             PolygonDef shapeDef = new PolygonDef();
-            shapeDef.SetAsBox((this.size.X) / 30.0F, (this.size.Y) / 30.0F);
+            shapeDef.SetAsBox(this.size.X / 2F, this.size.Y / 2F);
             shapeDef.Density = 1.0f;
-            shapeDef.Friction = 0.0f;
+            shapeDef.Friction = 1.0f;
 
 
             body.SetUserData(sprite);
@@ -44,28 +41,34 @@ namespace GameProject2D
         public void update()
         {
             float deltaTime = (float)Program.gameTime.EllapsedTime.TotalSeconds;
-            float speedFactor = 0.1F * deltaTime;
+            float speedFactor = 20F * deltaTime;
             
             Vector2 inputMovement = new Vector2(0F, 0F);
 
-            inputMovement.Y += Keyboard.IsKeyPressed(Keyboard.Key.Down) ? speedFactor : 0F;
-            inputMovement.Y += Keyboard.IsKeyPressed(Keyboard.Key.Up) ? -speedFactor : 0F;
+            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Left) ? -1 : 0F;
+            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Right) ? 1 : 0F;
 
-            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Left) ? -speedFactor : 0F;
-            inputMovement.X += Keyboard.IsKeyPressed(Keyboard.Key.Right) ? speedFactor : 0F;
+            if(Keyboard.IsKeyPressed(Keyboard.Key.Up) && body.GetWorld().GetContactCount() != 0)  //HACK
+            {
+                inputMovement += Vector2.Up * 25F;
+                Console.WriteLine("Jump");
+            }
 
             if(inputMovement != Vector2.Zero)
             {
-                movement += inputMovement.normalize() * speedFactor;
+                movement += inputMovement * speedFactor;
             }
 
             movement *= (1F - deltaTime * 4F);    // friction
 
-            position += movement;
+            //Console.WriteLine(position);
         }
 
         public void draw(RenderWindow win, View view)
         {
+            sprite.Position = midPoint.PixelCoord;
+            sprite.Scale = size.PixelCoord / sprite.Texture.Size;
+            sprite.Rotation = body.GetAngle() * Helper.RadianToDegree;
             win.Draw(sprite);
         }
     }
