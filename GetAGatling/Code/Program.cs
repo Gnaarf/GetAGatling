@@ -83,7 +83,7 @@ namespace GameProject2D
 
         static void resetView()
         {
-            view.Center = new Vector2(win.Size.X / 2, win.Size.Y / 2);
+            view.Center = new Vector2(win.Size.X / 2F, win.Size.Y / 2F);
             view.Size = new Vector2(win.Size.X, win.Size.Y);
         }
     }
