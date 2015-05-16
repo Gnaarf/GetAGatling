@@ -14,6 +14,7 @@ namespace GameProject2D
         Player player;
 
         World PhysicWorld;
+        AwesomeContactListener blaBlubb;
         Map map = new Map();
         List<Platform> platforms;
         AABB worldAABB = new AABB();
@@ -26,11 +27,16 @@ namespace GameProject2D
             worldAABB.LowerBound.Set(-1000.0f, -1000.0f);
             worldAABB.UpperBound.Set(1000.0f, 1000.0f);
             PhysicWorld = new Box2DX.Dynamics.World(worldAABB, new Vec2(0F, 9.81F), false);
+
+            blaBlubb = new AwesomeContactListener();
+            PhysicWorld.SetContactListener(blaBlubb);
+
             player = new Player(PhysicWorld,new Vector2f(0F, 0F));
 
             platforms = new List<Platform>();
             platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", 0F, 3F, 10F, 1F, 0F));
             platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", 8F, 4F, 10F, 1F, -Helper.PI / 8F));
+            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(-5F, 0F), new Vector2(10F, 1F), -Helper.PI / 2F));
         }
 
         public GameState update()
@@ -41,7 +47,7 @@ namespace GameProject2D
                 platform.update();
             }
 
-            PhysicWorld.Step((float)Program.gameTime.EllapsedTime.TotalSeconds, 10, 10);
+            PhysicWorld.Step((float)Program.gameTime.EllapsedTime.TotalSeconds, GameConstants.PHYSIC_VELOCITY_ITERATIONS, GameConstants.PHYSIC_POSITION_ITERATIONS);
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape)) 
             {

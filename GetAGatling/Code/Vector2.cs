@@ -85,8 +85,21 @@ public struct Vector2
     public float length { get { return (float)Math.Sqrt(X * X + Y * Y); } }
     public float lengthSqr { get { return X * X + Y * Y; } }
 
-    public Vector2 normalized { get { return this / length; } }
-    public Vector2 normalize() { return this /= length; }
+    public Vector2 normalized 
+    { 
+        get 
+        {
+            float l = length;
+            if (l == 0) { throw new Exception("Tried to normalize Zero-Vector!"); }
+            return this / l; 
+        } 
+    }
+    public Vector2 normalize() 
+    {
+        float l = length;
+        if (l == 0) { throw new Exception("Tried to normalize Zero-Vector!"); }
+        return this /= l; 
+    }
 
     public Vector2 right { get { return new Vector2(Y, -X); } }
     public Vector2 rightNormalized { get { return new Vector2(Y, -X) / length; } }

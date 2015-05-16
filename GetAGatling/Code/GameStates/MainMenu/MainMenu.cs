@@ -9,7 +9,7 @@ namespace GameProject2D
 
         public MainMenu()
         {
-            background = new Sprite(new Texture("Textures/MainMenu_Background.jpg"));
+            background = new Sprite(new Texture("Textures/MainMenu_Background2.jpg"));
         }
 
         public GameState update()
