@@ -14,7 +14,7 @@ namespace GameProject2D
         Player player;
 
         World PhysicWorld;
-        AwesomeContactListener blaBlubb;
+        ContactNotifier blaBlubb;
         Map map = new Map();
         List<Platform> platforms;
         AABB worldAABB = new AABB();
@@ -28,7 +28,7 @@ namespace GameProject2D
             worldAABB.UpperBound.Set(1000.0f, 1000.0f);
             PhysicWorld = new Box2DX.Dynamics.World(worldAABB, new Vec2(0F, 9.81F), false);
 
-            blaBlubb = new AwesomeContactListener();
+            blaBlubb = new ContactNotifier();
             PhysicWorld.SetContactListener(blaBlubb);
 
             player = new Player(PhysicWorld,new Vector2f(0F, 0F));

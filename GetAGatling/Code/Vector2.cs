@@ -51,6 +51,16 @@ public struct Vector2
         return new SFML.Window.Vector2u((uint)v.X, (uint)v.Y);
     }
 
+    public static implicit operator Vector2(SFML.Window.Vector2i v)
+    {
+        return new Vector2(v.X, v.Y);
+    }
+
+    public static implicit operator SFML.Window.Vector2i(Vector2 v)
+    {
+        return new SFML.Window.Vector2i((int)v.X, (int)v.Y);
+    }
+
 
     //------------------------------------------//
     //                 Constants                //

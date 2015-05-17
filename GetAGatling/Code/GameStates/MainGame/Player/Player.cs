@@ -8,9 +8,10 @@ using System.Collections.Generic;
 
 namespace GameProject2D
 {
-    public class Player : GameObject, IContactCallback
+    public class Player : GameObject, IContactNotified
     {
-        Sprite sprite;
+        AnimatedSprite sprite;
+        //Sprite sprite2;
         public override Vector2 midPoint { get { return body.GetPosition(); } }
         public Vector2 movement { get { return body.GetLinearVelocity(); } private set { body.SetLinearVelocity(value); } }
         public Vector2 size;
@@ -21,14 +22,17 @@ namespace GameProject2D
 
         public Player(World world, Vector2 midPoint)
         {
-            sprite = new Sprite(new Texture("Textures/pixel.png"));
-            sprite.Origin = ((Vector2)sprite.Texture.Size) / 2F;
-            sprite.Color = SFML.Graphics.Color.Black;
-            
-            this.size = new Vector2(1F, 1F);
+            // sprite for rendering
+            sprite = new AnimatedSprite(new Texture("Textures/Character/idle.png"), 0.05F, 20, new Vector2i(62, 50));
+            sprite.Origin = ((Vector2)sprite.spriteSize) / 2F;
+            sprite.Scale = Vector2.One * 1.4F;
+            sprite.restartAnimation(Program.gameTime);
 
             // controller
             controller = new KeyboardController();
+
+            // set properties
+            this.size = new Vector2(1F, 1F);
 
             // Physics init
             BodyDef bodydef = new BodyDef();
@@ -39,11 +43,11 @@ namespace GameProject2D
             circleDef.Radius = 0.5F;
             circleDef.Density = 1.0F;
             circleDef.Friction = 1.0F;
-
+            /*
             PolygonDef shapeDef = new PolygonDef();
             shapeDef.SetAsBox(this.size.X / 2F, this.size.Y / 2F);
             shapeDef.Density = 1.0f;
-            shapeDef.Friction = 1.0f;
+            shapeDef.Friction = 1.0f;*/
 
             body.SetUserData(this);
             body.CreateShape(circleDef);
@@ -93,19 +97,18 @@ namespace GameProject2D
             movement *= (1F - deltaTime * 4F);    // friction
         }
 
-        RectangleShape collisionRectangle = new RectangleShape(new Vector2(5, 5));
+        RectangleShape collisionRectangle = new RectangleShape();
                     
         public void draw(RenderWindow win, View view)
         {
             // Draw Player
             sprite.Position = midPoint.PixelCoord;
-            sprite.Scale = size.PixelCoord / sprite.Texture.Size;
-            sprite.Rotation = body.GetAngle() * Helper.RadianToDegree;
-            win.Draw(sprite);
+
+            win.Draw(sprite.updateFrame(Program.gameTime));
 
             //
-            collisionRectangle.Size = new Vector2(5, 5);
-            collisionRectangle.Origin = new Vector2(3, 3);
+            collisionRectangle.Size = new Vector2(3, 3);
+            collisionRectangle.Origin = new Vector2(1, 1);
             collisionRectangle.FillColor = SFML.Graphics.Color.Red;
              
                 foreach(Box2DX.Collision.Shape shape in collisionShapes)
@@ -116,7 +119,7 @@ namespace GameProject2D
                     collisionRectangle.Position = ((Vector2)contactPoints[0]).PixelCoord;
                     win.Draw(collisionRectangle);
                     collisionRectangle.Position = ((Vector2)contactPoints[1]).PixelCoord;
-                    //win.Draw(collisionRectangle);
+                    win.Draw(collisionRectangle);
                 }
         }
 

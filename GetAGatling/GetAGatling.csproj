@@ -75,14 +75,15 @@
   <ItemGroup>
     <Compile Include="Code\GameStates\GameConstants.cs" />
     <Compile Include="Code\GameStates\GameState.cs" />
-    <Compile Include="Code\GameStates\MainGame\AwesomeContactListener.cs" />
-    <Compile Include="Code\GameStates\MainGame\IContactCallback.cs" />
+    <Compile Include="Code\GameStates\MainGame\ContactNotifier.cs" />
+    <Compile Include="Code\GameStates\MainGame\IContactNotified.cs" />
     <Compile Include="Code\GameStates\MainGame\Map.cs" />
     <Compile Include="Code\GameStates\MainGame\GameObject.cs" />
     <Compile Include="Code\GameStates\MainGame\Platform.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\KeyboardController.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\ControllerInput.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\PlayerController.cs" />
+    <Compile Include="Code\AnimatedSprite.cs" />
     <Compile Include="Code\Helper.cs" />
     <Compile Include="Code\GUI.cs" />
     <Compile Include="Code\GameStates\IGameState.cs" />
@@ -141,6 +142,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Externals\SFML\sfmlnet-window-2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\Character\idle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Textures\Ground.png">

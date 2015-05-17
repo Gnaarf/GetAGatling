@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace GameProject2D
 {
-    class AwesomeContactListener : ContactListener
+    class ContactNotifier : ContactListener
     {
         public override void Add(ContactPoint point)
         {
-            IContactCallback s1 = point.Shape1.GetBody().GetUserData() as IContactCallback;
-            IContactCallback s2 = point.Shape2.GetBody().GetUserData() as IContactCallback;
+            IContactNotified s1 = point.Shape1.GetBody().GetUserData() as IContactNotified;
+            IContactNotified s2 = point.Shape2.GetBody().GetUserData() as IContactNotified;
             if (s1 != null)
             {
                 s1.OnContact(point.Shape2, point);
@@ -22,8 +22,8 @@ namespace GameProject2D
 
         public override void Remove(ContactPoint point)
         {
-            IContactCallback s1 = point.Shape1.GetBody().GetUserData() as IContactCallback;
-            IContactCallback s2 = point.Shape2.GetBody().GetUserData() as IContactCallback;
+            IContactNotified s1 = point.Shape1.GetBody().GetUserData() as IContactNotified;
+            IContactNotified s2 = point.Shape2.GetBody().GetUserData() as IContactNotified;
             if (s1 != null)
             {
                 s1.OnContactRemove(point.Shape2, point);
