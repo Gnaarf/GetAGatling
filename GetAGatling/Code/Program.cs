@@ -8,6 +8,8 @@ namespace GameProject2D
     {
         public static GameTime gameTime;
 
+        public static GamePadInputManager gamePadInputManager;
+
         static bool running = true;
 
         static GameState currentGameState = GameState.MainMenu;
@@ -29,6 +31,10 @@ namespace GameProject2D
             // exit Program, when window is being closed
             win.Closed += (object sender, EventArgs e) => { (sender as Window).Close(); };
 
+            // initialize GamePadInputManager, in case, there are GamePads connected
+            gamePadInputManager = new GamePadInputManager();
+
+            // initialize GameState
             handleNewGameState();
 
             // initialize GameTime
@@ -37,6 +43,9 @@ namespace GameProject2D
 
             while (running && win.IsOpen())
             {
+                gamePadInputManager.update();
+                // TODO: reevaluate gamepads every once in a while
+
                 currentGameState = state.update();
 
                 if (currentGameState != prevGameState)

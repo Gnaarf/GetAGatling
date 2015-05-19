@@ -80,7 +80,7 @@
     <Compile Include="Code\GameStates\MainGame\Map.cs" />
     <Compile Include="Code\GameStates\MainGame\GameObject.cs" />
     <Compile Include="Code\GameStates\MainGame\Platform.cs" />
-    <Compile Include="Code\GameStates\MainGame\Player\Controller\KeyboardController - Copy.cs" />
+    <Compile Include="Code\GameStates\MainGame\Player\Controller\KeyboardController.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\GamePadController.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\ControllerInput.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\PlayerController.cs" />
@@ -92,7 +92,7 @@
     <Compile Include="Code\GameStates\MainGame\Player\Player.cs" />
     <Compile Include="Code\GameStates\MainMenu\MainMenu.cs" />
     <Compile Include="Code\GameTime.cs" />
-    <Compile Include="Code\JoystickInput.cs" />
+    <Compile Include="Code\GamePadInputManager.cs" />
     <Compile Include="Code\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Code\Rand.cs" />
