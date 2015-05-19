@@ -30,5 +30,4 @@ namespace GameProject2D
             }
         }
     }
-
 }

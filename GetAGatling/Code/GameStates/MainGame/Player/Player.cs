@@ -23,7 +23,7 @@ namespace GameProject2D
         public Player(World world, Vector2 midPoint)
         {
             // sprite for rendering
-            sprite = new AnimatedSprite(new Texture("Textures/Character/idle.png"), 0.05F, 20, new Vector2i(62, 50));
+            sprite = new AnimatedSprite(new Texture("Textures/Character/idle_00.png"), 0.05F, 20, new Vector2i(62, 50));
             sprite.Origin = ((Vector2)sprite.spriteSize) / 2F;
             sprite.Scale = Vector2.One * 1.4F;
             sprite.restartAnimation(Program.gameTime);
@@ -43,15 +43,12 @@ namespace GameProject2D
             circleDef.Radius = 0.5F;
             circleDef.Density = 1.0F;
             circleDef.Friction = 1.0F;
-            /*
-            PolygonDef shapeDef = new PolygonDef();
-            shapeDef.SetAsBox(this.size.X / 2F, this.size.Y / 2F);
-            shapeDef.Density = 1.0f;
-            shapeDef.Friction = 1.0f;*/
 
             body.SetUserData(this);
             body.CreateShape(circleDef);
             body.SetMassFromShapes();
+
+            Console.WriteLine(body.GetMass());
         }
 
         public void update()
@@ -103,6 +100,11 @@ namespace GameProject2D
         {
             // Draw Player
             sprite.Position = midPoint.PixelCoord;
+            sprite.Texture.Smooth = true;
+            if ((movement.X > 0.1F && sprite.Scale.X > 0F) || (movement.X < -0.1F && sprite.Scale.X < 0F))
+            {
+                sprite.Scale = new Vector2(sprite.Scale.X * -1F, sprite.Scale.Y);
+            }
 
             win.Draw(sprite.updateFrame(Program.gameTime));
 
