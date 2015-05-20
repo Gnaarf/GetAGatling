@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+
 public struct Vector2
 {
     public float X;
@@ -121,6 +121,21 @@ public struct Vector2
     public static Vector2 lerp(Vector2 from, Vector2 to, float t)
     {
         return (1F - t) * from + t * to;
+    }
+
+    public static Vector2 average(params Vector2[] values)
+    {
+        return sum(values) / (float)values.Length;
+    }
+
+    public static Vector2 sum(params Vector2[] values)
+    {
+        Vector2 sum = new Vector2(0F, 0F);
+        for (int i = 0; i < values.Length; i++)
+        {
+            sum += values[i];
+        }
+        return sum;
     }
 
     //------------------------------------------//
