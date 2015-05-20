@@ -83,18 +83,18 @@ namespace GameProject2D
             
             inputMovement.X += input.xMovement;
 
-            if(input.startJumping && collisionShapes.Count != 0)
+            if(inputMovement != Vector2.Zero)
+            {
+                movement += inputMovement * speedFactor;
+            }
+
+            if (input.startJumping && collisionShapes.Count != 0)
             {
                 Vector2 avgCollisionPoint = Vector2.average(collisionPoints.ToArray());
 
                 Vector2 normal = (midPoint - avgCollisionPoint).normalized;
 
-                inputMovement += (Vector2.Up * 2 + normal).normalized * 550F;
-            }
-
-            if(inputMovement != Vector2.Zero)
-            {
-                movement += inputMovement * speedFactor;
+                movement += (Vector2.Up * 2 + normal).normalized * 10F;
             }
 
             movement *= (1F - deltaTime * 4F);    // friction
