@@ -4,8 +4,6 @@ namespace GameProject2D
 {
     public class GamePadController : PlayerController
     {
-        float deadZone = 0.1F;
-
         uint? padIndex = null;
 
         static bool[] occupied;
@@ -36,10 +34,6 @@ namespace GameProject2D
         {
             // Movement
             input.xMovement = Program.gamePadInputManager.getLeftStick(padIndex.Value).X;
-            if(Math.Abs(input.xMovement) < deadZone)
-            {
-                input.xMovement = 0F;
-            }
 
             // Aiming
             input.aimDirection = Program.gamePadInputManager.getRightStick(padIndex.Value);

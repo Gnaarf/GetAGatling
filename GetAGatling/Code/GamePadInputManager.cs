@@ -17,6 +17,8 @@ namespace GameProject2D
             public bool[] currentButton;
         }
 
+        const float deadZone = 0.1F;
+
         Dictionary<uint, Input> padInputs;
 
         public readonly int numSupportedPads = 8;
@@ -71,11 +73,24 @@ namespace GameProject2D
                 }
 
                 input.rightStick = 0.01F * new Vector2(Joystick.GetAxisPosition(index, Joystick.Axis.U), -Joystick.GetAxisPosition(index, Joystick.Axis.R));
+                input.rightStick = adjustDeadZone(input.rightStick);
+                
                 input.leftStick = 0.01F * new Vector2(Joystick.GetAxisPosition(index, Joystick.Axis.X), -Joystick.GetAxisPosition(index, Joystick.Axis.Y));
+                input.leftStick = adjustDeadZone(input.leftStick);
+                
                 input.LTRT = Joystick.GetAxisPosition(index, Joystick.Axis.Z);
 
                 padInputs[index] = input;
             }
+        }
+
+        private static Vector2 adjustDeadZone(Vector2 v)
+        {
+            if (v.lengthSqr < 0.01F)
+            {
+                v = Vector2.Zero;
+            }
+            return v;
         }
 
         public bool isConnected(uint padIndex)
