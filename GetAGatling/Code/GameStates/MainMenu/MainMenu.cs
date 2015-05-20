@@ -26,11 +26,11 @@ namespace GameProject2D
         public MainMenu()
         {
             background = new Sprite(new Texture("Textures/MainMenu_Background.jpg"));
-            startButton = new Texture("Textures/MainMenuButton/StartButton.jpg");
-            startButtonHover = new Texture("Textures/MainMenuButton/StartButtonHover.jpg");
+            startButton = new Texture("Textures/MainMenuButton/StartButton.png");
+            startButtonHover = new Texture("Textures/MainMenuButton/StartButtonHover.png");
             start = new Sprite(startButtonHover);
-            quitButton = new Texture("Textures/MainMenuButton/QuitButton.jpg");
-            startButtonHover = new Texture("Textures/MainMenuButton/QuitButtonHover.jpg");
+            quitButton = new Texture("Textures/MainMenuButton/QuitButton.png");
+            quitButtonHover = new Texture("Textures/MainMenuButton/QuitButtonHover.png");
             quit = new Sprite(quitButton);
             currentSelected = SelectedButton.Start;
             indexButton = 0;
@@ -52,7 +52,7 @@ namespace GameProject2D
         }
         void selectButton() 
         {
-            if( currentSelected > (SelectedButton)1 && upInputPressed())
+            if( currentSelected > (SelectedButton)1 && upInputPressed() )
             {
                 indexButton--;
                 currentSelected = (SelectedButton)indexButton;
@@ -74,9 +74,9 @@ namespace GameProject2D
                 || Keyboard.IsKeyPressed(Keyboard.Key.D)
                 || Keyboard.IsKeyPressed(Keyboard.Key.Up)
                 || Keyboard.IsKeyPressed(Keyboard.Key.Right)
-                //||  Program.gamePadInputManager.getLeftStick(0).X >0 
-                //||  Program.gamePadInputManager.getLeftStick(0).Y > 0
-                );
+                ||(Program.gamePadInputManager.isConnected(0) &&  Program.gamePadInputManager.getLeftStick(0).Y >0 
+                //||  Program.gamePadInputManager.getLeftStick(0).X > 0
+                ));
         }
         bool downInputPressed() 
         {
@@ -84,9 +84,9 @@ namespace GameProject2D
                 || Keyboard.IsKeyPressed(Keyboard.Key.A)
                 || Keyboard.IsKeyPressed(Keyboard.Key.Down)
                 || Keyboard.IsKeyPressed(Keyboard.Key.Left)
-                //||  Program.gamePadInputManager.getLeftStick(0).X < 0
-                ||  Program.gamePadInputManager.getLeftStick(0).Y < 0 
-                );
+                || (Program.gamePadInputManager.isConnected(0) && Program.gamePadInputManager.getLeftStick(0).Y < 0
+                //||  Program.gamePadInputManager.getLeftStick(0).X < 0 
+                ));
         }
         public void draw(RenderWindow win, View view)
         {
