@@ -1,4 +1,16 @@
-GUI
-Minimap
+
 Map
-Was lauffähiges
+-basis implementation of map
+--currently test-platforms are in the MainGame
+--move to Map and let them communicate properly
+
+physic
+-drop speed
+
+weapons
+
+shop
+
+fidgets
+
+blood
