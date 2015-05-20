@@ -12,6 +12,8 @@ namespace GameProject2D
 
         static bool running = true;
 
+        static Font calibriFont = new Font("Fonts/calibri.ttf");   // HACK
+
         static GameState currentGameState = GameState.MainMenu;
         static GameState prevGameState = GameState.MainMenu;
         static IGameState state;
@@ -27,6 +29,9 @@ namespace GameProject2D
             view = new View();
             resetView();
             gui = new GUI(win, view);
+
+            Text debugText = new Text("", calibriFont);
+            debugText.Color = new Color(252, 143, 80);
 
             // exit Program, when window is being closed
             win.Closed += (object sender, EventArgs e) => { (sender as Window).Close(); };
@@ -57,13 +62,18 @@ namespace GameProject2D
                 win.Clear(new Color(100, 149, 237));    //cornflowerblue ftw!!! 1337
                 state.draw(win, view);
                 state.drawGUI(gui);
+                {   //HACK
+                    debugText.DisplayedString = "fps:" + (1.0 / gameTime.EllapsedTime.TotalSeconds);
+                    debugText.DisplayedString += "\ntest";
+                    gui.draw(debugText);
+                }
                 win.SetView(view);
                 win.Display();
 
                 // check for window-events. e.g. window closed        
                 win.DispatchEvents();
 
-                // initialize GameTime
+                // update GameTime
                 gameTime.Update();
             }
         }

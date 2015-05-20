@@ -30,5 +30,20 @@ namespace GameProject2D
             // draw the sprite
             win.Draw(spriteCopy);
         }
+
+        public void draw(Text text)
+        {
+            // work on a copy, instead of the original, for the original could be reused outside this scope
+            Text textCopy = new Text(text);
+
+            // modify sprite, to fit it in the gui
+            float viewScale = (float)view.Size.X / win.Size.X;
+
+            textCopy.Scale *= viewScale;
+            textCopy.Position = view.Center - view.Size / 2F + textCopy.Position * viewScale;
+
+            // draw the sprite
+            win.Draw(textCopy);
+        }
     }
 }
