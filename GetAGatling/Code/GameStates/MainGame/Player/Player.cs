@@ -17,7 +17,8 @@ namespace GameProject2D
         public Vector2 size;
         public Body body { get; private set; }
         List<Box2DX.Collision.Shape> collisionShapes = new List<Box2DX.Collision.Shape>();
-
+        List<Vector2> collisionPoints = new List<Vector2>();
+            
         PlayerController controller;
 
         public Player(World world, Vector2 midPoint)
@@ -53,7 +54,8 @@ namespace GameProject2D
 
         public void update()
         {
-            // remove outdated collisions
+            // remove outdated collisions and get current collisionPoints
+            collisionPoints.Clear();
             List<Box2DX.Collision.Shape> cachedShapesToBeDeleted = new List<Box2DX.Collision.Shape>();
             foreach(Box2DX.Collision.Shape shape in collisionShapes)
             {
@@ -64,7 +66,7 @@ namespace GameProject2D
                 {
                     cachedShapesToBeDeleted.Add(shape);
                 }
-                collisionRectangle.Position = ((Vector2)contactPoints[0]).PixelCoord;
+                collisionPoints.Add(contactPoints[0]);
             }
             foreach(Box2DX.Collision.Shape shape in cachedShapesToBeDeleted)
             {
@@ -83,7 +85,11 @@ namespace GameProject2D
 
             if(input.startJumping && collisionShapes.Count != 0)
             {
-                inputMovement += Vector2.Up * 250F;
+                Vector2 avgCollisionPoint = Vector2.average(collisionPoints.ToArray());
+
+                Vector2 normal = (midPoint - avgCollisionPoint).normalized;
+
+                inputMovement += (Vector2.Up * 2 + normal).normalized * 550F;
             }
 
             if(inputMovement != Vector2.Zero)
@@ -132,7 +138,6 @@ namespace GameProject2D
                 collisionShapes.Add(other);
             }
         }
-
 
         public void OnContactRemove(Box2DX.Collision.Shape other, ContactPoint point)
         {
