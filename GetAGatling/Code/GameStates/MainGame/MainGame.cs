@@ -34,9 +34,9 @@ namespace GameProject2D
             player = new Player(PhysicWorld,new Vector2f(0F, 0F));
 
             platforms = new List<Platform>();
-            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", 2F, 3F, 10F, 1F, 0F));
-            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", -4F, 5.8F, 10F, 1F, 0F));
-            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", 8F, 4F, 10F, 1F, -Helper.PI / 8F));
+            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(2F, 3F), new Vector2(10F, 1F), 0F));
+            platforms.Add(new MovingPlatform(PhysicWorld, "Textures/pixel.png", new Vector2(-4F, 5.8F), new Vector2(10F, 1F), 0F, new Vector2(-6F, 8F), 1F));
+            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(8F, 4F), new Vector2(10F, 1F), -Helper.PI / 8F));
             platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(-5F, 0F), new Vector2(10F, 1F), -Helper.PI / 2F));
         }
 

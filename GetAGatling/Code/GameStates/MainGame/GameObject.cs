@@ -7,6 +7,6 @@ namespace GameProject2D
 {
     public abstract class GameObject
     {
-        public abstract Vector2 midPoint { get; }
+        public abstract Vector2 midPoint { get; protected set; }
     }
 }

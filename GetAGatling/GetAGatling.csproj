@@ -76,9 +76,11 @@
     <Compile Include="Code\GameStates\GameConstants.cs" />
     <Compile Include="Code\GameStates\GameState.cs" />
     <Compile Include="Code\GameStates\MainGame\ContactNotifier.cs" />
+    <Compile Include="Code\GameStates\MainGame\PhysicObject.cs" />
     <Compile Include="Code\GameStates\MainGame\IContactNotified.cs" />
     <Compile Include="Code\GameStates\MainGame\Map.cs" />
     <Compile Include="Code\GameStates\MainGame\GameObject.cs" />
+    <Compile Include="Code\GameStates\MainGame\MovingPlatform.cs" />
     <Compile Include="Code\GameStates\MainGame\Platform.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\KeyboardController.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\GamePadController.cs" />

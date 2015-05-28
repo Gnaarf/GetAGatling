@@ -8,14 +8,10 @@ using System.Collections.Generic;
 
 namespace GameProject2D
 {
-    public class Player : GameObject, IContactNotified
+    public class Player : PhysicObject, IContactNotified
     {
         AnimatedSprite sprite;
-        //Sprite sprite2;
-        public override Vector2 midPoint { get { return body.GetPosition(); } }
-        public Vector2 movement { get { return body.GetLinearVelocity(); } private set { body.SetLinearVelocity(value); } }
         public Vector2 size;
-        public Body body { get; private set; }
         List<Box2DX.Collision.Shape> collisionShapes = new List<Box2DX.Collision.Shape>();
         List<Vector2> collisionPoints = new List<Vector2>();
             
@@ -44,6 +40,7 @@ namespace GameProject2D
             circleDef.Radius = 0.5F;
             circleDef.Density = 1.0F;
             circleDef.Friction = 1.0F;
+            circleDef.Restitution = 0.0F;
 
             body.SetUserData(this);
             body.CreateShape(circleDef);
@@ -94,10 +91,13 @@ namespace GameProject2D
 
                 Vector2 normal = (midPoint - avgCollisionPoint).normalized;
 
-                movement += (Vector2.Up * 2 + normal).normalized * 10F;
+                Vector2 jumpMovement = (Vector2.Up * 2 + normal).normalized * 6F;
+
+                movement = new Vector2(movement.X + jumpMovement.X, jumpMovement.Y);
             }
 
-            movement *= (1F - deltaTime * 4F);    // friction
+            float friction = 2F;
+            movement = new Vector2(movement.X * (1F - deltaTime * friction), movement.Y);    // friction
         }
 
         RectangleShape collisionRectangle = new RectangleShape();
@@ -123,7 +123,7 @@ namespace GameProject2D
                 {
                     Box2DX.Common.Vec2[] contactPoints = new Box2DX.Common.Vec2[2];
                     float distance = Collision.Distance(out contactPoints[0], out contactPoints[1], this.body.GetShapeList(), this.body.GetXForm(), shape, shape.GetBody().GetXForm());
-
+                    
                     collisionRectangle.Position = ((Vector2)contactPoints[0]).PixelCoord;
                     win.Draw(collisionRectangle);
                     collisionRectangle.Position = ((Vector2)contactPoints[1]).PixelCoord;

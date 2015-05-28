@@ -5,12 +5,10 @@ using System;
 
 namespace GameProject2D
 {
-    class Platform : GameObject
+    class Platform : PhysicObject
     {
-        Body body;
         Sprite sprite;
 
-        public override Vector2 midPoint { get { return body.GetPosition(); } }
         Vector2 size;
 
         public Platform(World world, String texture, float midPointX, float midPointY, float width, float height, float angle)
@@ -32,7 +30,7 @@ namespace GameProject2D
             // SetAsBox expects radius
             shapeDef.SetAsBox( size.X / 2F, size.Y / 2F);
             shapeDef.Density = 0.0f;
-            shapeDef.Friction = 0.0f;
+            shapeDef.Friction = 1.0f;
 
             Texture tex = new Texture(texture);
             
@@ -45,18 +43,17 @@ namespace GameProject2D
 
         }
 
-        public void update()
+        public virtual void update()
         {
         }
 
-        public void draw (RenderWindow win, View view)
+        public virtual void draw(RenderWindow win, View view)
         {
             sprite.Position = midPoint.PixelCoord;
             sprite.Scale = size.PixelCoord / sprite.Texture.Size;
             sprite.Rotation = body.GetAngle() * Helper.RadianToDegree;
 
             win.Draw(sprite);
-
         }
     }
 }

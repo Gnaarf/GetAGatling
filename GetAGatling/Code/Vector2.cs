@@ -104,6 +104,7 @@ public struct Vector2
             return this / l; 
         } 
     }
+
     public Vector2 normalize() 
     {
         float l = length;
@@ -138,6 +139,21 @@ public struct Vector2
         return sum;
     }
 
+    public static float distance(Vector2 v1, Vector2 v2)
+    {
+        return (v1 - v2).length;
+    }
+
+    public static float distanceSqr(Vector2 v1, Vector2 v2)
+    {
+        return (v1 - v2).lengthSqr;
+    }
+
+    public static float dot(Vector2 v1, Vector2 v2)
+    {
+        return v1.X * v2.X + v1.Y * v2.Y;
+    }
+
     //------------------------------------------//
     //           Arithmetic Operators           //
     //------------------------------------------//
@@ -153,6 +169,11 @@ public struct Vector2
     public static Vector2 operator -(Vector2 v1, Vector2 v2)
     {
         return new Vector2(v1.X - v2.X, v1.Y - v2.Y);
+    }
+    /// <summary>negate every component</summary>
+    public static Vector2 operator -(Vector2 v)
+    {
+        return new Vector2(-v.X, -v.Y);
     }
 
     // Multiplication

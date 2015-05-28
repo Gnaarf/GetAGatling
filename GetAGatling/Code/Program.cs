@@ -34,7 +34,8 @@ namespace GameProject2D
             debugText.Color = new Color(252, 143, 80);
 
             // exit Program, when window is being closed
-            win.Closed += (object sender, EventArgs e) => { (sender as Window).Close(); };
+            //win.Closed += new EventHandler(closeWindow);
+            win.Closed += (sender, e) => { (sender as Window).Close(); };
 
             // initialize GamePadInputManager, in case, there are GamePads connected
             gamePadInputManager = new GamePadInputManager();
