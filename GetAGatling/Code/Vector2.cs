@@ -100,7 +100,6 @@ public struct Vector2
         get 
         {
             float l = length;
-            if (l == 0) { throw new Exception("Tried to normalize Zero-Vector!"); }
             return this / l; 
         } 
     }
@@ -108,7 +107,6 @@ public struct Vector2
     public Vector2 normalize() 
     {
         float l = length;
-        if (l == 0) { throw new Exception("Tried to normalize Zero-Vector!"); }
         return this /= l; 
     }
 
@@ -197,11 +195,13 @@ public struct Vector2
     /// <summary>divide component-wise</summary>
     public static Vector2 operator /(Vector2 v1, Vector2 v2)
     {
+        if (v2.X == 0F || v2.Y == 0F) { throw new Exception("Devide by Zero"); }
         return new Vector2(v1.X / v2.X, v1.Y / v2.Y);
     }
     /// <summary>divide both components by factor</summary>
     public static Vector2 operator /(Vector2 v, float f)
     {
+        if (f == 0F) { throw new Exception("Devide by Zero"); }
         return new Vector2(v.X / f, v.Y / f);
     }
 

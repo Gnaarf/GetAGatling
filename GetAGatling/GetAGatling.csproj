@@ -87,6 +87,7 @@
     <Compile Include="Code\GameStates\MainGame\Player\Controller\ControllerInput.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\Controller\PlayerController.cs" />
     <Compile Include="Code\AnimatedSprite.cs" />
+    <Compile Include="Code\GameStates\MainGame\Player\PlayerManager.cs" />
     <Compile Include="Code\GameStates\MainGame\Weapon.cs" />
     <Compile Include="Code\Helper.cs" />
     <Compile Include="Code\GUI.cs" />

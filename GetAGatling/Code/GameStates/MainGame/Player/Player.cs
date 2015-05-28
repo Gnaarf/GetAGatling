@@ -17,7 +17,7 @@ namespace GameProject2D
             
         PlayerController controller;
 
-        public Player(World world, Vector2 midPoint)
+        public Player(World world, Vector2 midPoint, PlayerController controller)
         {
             // sprite for rendering
             sprite = new AnimatedSprite(new Texture("Textures/Character/idle_00.png"), 0.05F, 20, new Vector2i(62, 50));
@@ -26,7 +26,7 @@ namespace GameProject2D
             sprite.restartAnimation(Program.gameTime);
 
             // controller
-            controller = new KeyboardController();
+            this.controller = controller;
 
             // set properties
             this.size = new Vector2(1F, 1F);

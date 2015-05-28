@@ -5,9 +5,9 @@ namespace GameProject2D
 {
     public enum GamePadButton { A, B, X, Y, LB, RB, Select, Start, BUTTONNUM, LT, RT };
     
-    class GamePadInputManager
+    public class GamePadInputManager
     {
-        struct Input
+        public struct Input
         {
             public Vector2 leftStick;
             public Vector2 rightStick;
@@ -21,16 +21,13 @@ namespace GameProject2D
 
         Dictionary<uint, Input> padInputs;
 
+        public Dictionary<uint, Input>.KeyCollection connectedPadIndices { get { return padInputs.Keys; } }
+
         public readonly int numSupportedPads = 8;
 
         public int numConnectedPads {get; private set;}
 
         public GamePadInputManager()
-        {
-            registerConnectedGamePads();
-        }
-
-        public void registerConnectedGamePads()
         {
             padInputs = new Dictionary<uint, Input>();
 
@@ -42,45 +39,71 @@ namespace GameProject2D
             {
                 if (Joystick.IsConnected(i))
                 {
-                    numConnectedPads++;
-
-                    Input input = new Input();
-
-                    input.oldButton = new bool[(int)GamePadButton.BUTTONNUM];
-                    input.currentButton = new bool[(int)GamePadButton.BUTTONNUM];
-
-                    input.leftStick = new Vector2(0, 0);
-                    input.rightStick = new Vector2(0, 0);
-
-                    padInputs[i] = input;
+                    registerPad(i);
                 }
             }
+        }
+
+        private void registerPad(uint i)
+        {
+            numConnectedPads++;
+
+            Input input = new Input();
+
+            input.oldButton = new bool[(int)GamePadButton.BUTTONNUM];
+            input.currentButton = new bool[(int)GamePadButton.BUTTONNUM];
+
+            input.leftStick = new Vector2(0, 0);
+            input.rightStick = new Vector2(0, 0);
+
+            padInputs[i] = input;
+        }
+
+        private void unregisterPad(uint i)
+        {
+            numConnectedPads--;
+
+            padInputs.Remove(i);
         }
 
         public void update()
         {
             Joystick.Update();
 
-            foreach(KeyValuePair<uint, Input> indexInputPair in padInputs)
+            for (uint index = 0; index < numSupportedPads; index++)
             {
-                uint index = indexInputPair.Key;
-                Input input = indexInputPair.Value;
-
-                for (uint i = 0; i < (uint)GamePadButton.BUTTONNUM; i++)
+                if (!Joystick.IsConnected(index))
                 {
-                    input.oldButton[i] = input.currentButton[i];
-                    input.currentButton[i] = Joystick.IsButtonPressed(index, i);
+                    if (padInputs.ContainsKey(index))
+                    {
+                        unregisterPad(index);
+                    }
                 }
+                else
+                {
+                    if (!padInputs.ContainsKey(index))
+                    {
+                        registerPad(index);
+                    }
 
-                input.rightStick = 0.01F * new Vector2(Joystick.GetAxisPosition(index, Joystick.Axis.U), -Joystick.GetAxisPosition(index, Joystick.Axis.R));
-                input.rightStick = adjustDeadZone(input.rightStick);
-                
-                input.leftStick = 0.01F * new Vector2(Joystick.GetAxisPosition(index, Joystick.Axis.X), -Joystick.GetAxisPosition(index, Joystick.Axis.Y));
-                input.leftStick = adjustDeadZone(input.leftStick);
-                
-                input.LTRT = Joystick.GetAxisPosition(index, Joystick.Axis.Z);
+                    Input input = padInputs[index];
 
-                padInputs[index] = input;
+                    for (uint i = 0; i < (uint)GamePadButton.BUTTONNUM; i++)
+                    {
+                        input.oldButton[i] = input.currentButton[i];
+                        input.currentButton[i] = Joystick.IsButtonPressed(index, i);
+                    }
+
+                    input.rightStick = 0.01F * new Vector2(Joystick.GetAxisPosition(index, Joystick.Axis.U), -Joystick.GetAxisPosition(index, Joystick.Axis.R));
+                    input.rightStick = adjustDeadZone(input.rightStick);
+
+                    input.leftStick = 0.01F * new Vector2(Joystick.GetAxisPosition(index, Joystick.Axis.X), -Joystick.GetAxisPosition(index, Joystick.Axis.Y));
+                    input.leftStick = adjustDeadZone(input.leftStick);
+
+                    input.LTRT = Joystick.GetAxisPosition(index, Joystick.Axis.Z);
+
+                    padInputs[index] = input;
+                }
             }
         }
 

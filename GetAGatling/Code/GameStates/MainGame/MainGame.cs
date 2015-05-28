@@ -11,7 +11,7 @@ namespace GameProject2D
 {
     class InGame : IGameState
     {
-        Player player;
+        PlayerManager playerManager;
 
         World PhysicWorld;
         ContactNotifier blaBlubb;
@@ -31,7 +31,9 @@ namespace GameProject2D
             blaBlubb = new ContactNotifier();
             PhysicWorld.SetContactListener(blaBlubb);
 
-            player = new Player(PhysicWorld,new Vector2f(0F, 0F));
+            playerManager = new PlayerManager();
+
+            pixelSprite.Scale = new Vector2(2, 2);
 
             platforms = new List<Platform>();
             platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(2F, 3F), new Vector2(10F, 1F), 0F));
@@ -42,7 +44,8 @@ namespace GameProject2D
 
         public GameState update()
         {   
-            player.update();
+            playerManager.update(PhysicWorld);
+
             foreach(Platform platform in platforms)
             {
                 platform.update();
@@ -66,7 +69,8 @@ namespace GameProject2D
             if (Keyboard.IsKeyPressed(Keyboard.Key.Add))
                 view.Size = new Vector2(view.Size.X - 1F, view.Size.Y - (view.Size.Y / view.Size.X));
             // move
-            view.Center = Vector2.lerp(view.Center, player.midPoint.PixelCoord + player.size / 2F, 0.001F);
+            Vector2 center = GameObject.getAveragePosition(playerManager.currentPlayers);
+            view.Center = Vector2.lerp(view.Center, center.PixelCoord, 0.001F);
 
             // draw coordinate-system
             float stepSize = 1F;
@@ -86,7 +90,7 @@ namespace GameProject2D
                 platform.draw(win, view);
             }
 
-            player.draw(win, view);
+            playerManager.draw(win, view);
         }
 
         public void drawGUI(GUI gui)
@@ -97,11 +101,13 @@ namespace GameProject2D
             gui.draw(RadarSprite);
 
             // draw Player on Radar
-            Vector2 playerRadarPosition = player.midPoint.PixelCoord / map.size + GameConstants.GUI_RADAR_CENTER;
-            pixelSprite.Color = SFML.Graphics.Color.Red;
-            pixelSprite.Position = playerRadarPosition;
-            pixelSprite.Scale = new Vector2(3, 3);
-            gui.draw(pixelSprite);
+            foreach(Player player in playerManager.currentPlayers)
+            {
+                Vector2 playerRadarPosition = player.midPoint.PixelCoord / map.size + GameConstants.GUI_RADAR_CENTER;
+                pixelSprite.Color = SFML.Graphics.Color.Red;
+                pixelSprite.Position = playerRadarPosition;
+                gui.draw(pixelSprite);
+            }
         }
     }
 }

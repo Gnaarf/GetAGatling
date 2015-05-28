@@ -8,7 +8,7 @@ namespace GameProject2D
 {
     class Weapon : GameObject// think will inhert frm gameobj or physicObject
     {
-        public override Vector2 midPoint {  get{return new Vector2(0,0);}  }
+        public override Vector2 midPoint { get; protected set; }
         public float firingSpeed { get; private set; }
         public float firingDelay { get; private set; }
         public float ammunition { get; private set; }

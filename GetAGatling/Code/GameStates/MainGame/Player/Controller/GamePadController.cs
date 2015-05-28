@@ -4,42 +4,24 @@ namespace GameProject2D
 {
     public class GamePadController : PlayerController
     {
-        uint? padIndex = null;
+        uint padIndex;
 
-        static bool[] occupied;
-
-        public GamePadController()
+        public GamePadController(uint padIndex)
             : base()
         {
-            if (occupied == null)
-            {
-                // initialized with false, for no Controller is registered to a pad yet
-                occupied = new bool[Program.gamePadInputManager.numSupportedPads];
-            }
-
-            if (!padIndex.HasValue)
-            {
-                for (int i = 0; i < Program.gamePadInputManager.numConnectedPads; ++i)
-                {
-                    if(!occupied[i])
-                    {
-                        padIndex = (uint)i;
-                        occupied[i] = true;
-                    }
-                }
-            }
+            this.padIndex = padIndex;
         }
 
         public override ControllerInput update(Player player)
         {
             // Movement
-            input.xMovement = Program.gamePadInputManager.getLeftStick(padIndex.Value).X;
+            input.xMovement = Program.gamePadInputManager.getLeftStick(padIndex).X;
 
             // Aiming
-            input.aimDirection = Program.gamePadInputManager.getRightStick(padIndex.Value);
+            input.aimDirection = Program.gamePadInputManager.getRightStick(padIndex);
 
             // Jumping
-            input.jumpingButtonDown = Program.gamePadInputManager.isPressed(GamePadButton.A, padIndex.Value);
+            input.jumpingButtonDown = Program.gamePadInputManager.isPressed(GamePadButton.A, padIndex);
 
             return input;
         } 
