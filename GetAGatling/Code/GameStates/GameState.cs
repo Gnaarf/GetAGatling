@@ -11,6 +11,7 @@ namespace GameProject2D
         None,
         Intro,
         MainMenu,
+        Options,
         InGame
     }
 }

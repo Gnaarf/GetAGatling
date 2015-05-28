@@ -18,7 +18,7 @@ namespace GameProject2D
         {
             None,
             Start,
-   //         Controlles,
+   //         Options,
    //         Credits,
             Quit,
             Size
