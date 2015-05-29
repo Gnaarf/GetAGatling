@@ -17,7 +17,7 @@ namespace GameProject2D
             public bool[] currentButton;
         }
 
-        const float deadZone = 0.1F;
+        const float deadZone = 0.05F;
 
         Dictionary<uint, Input> padInputs;
 
@@ -109,7 +109,7 @@ namespace GameProject2D
 
         private static Vector2 adjustDeadZone(Vector2 v)
         {
-            if (v.lengthSqr < 0.01F)
+            if (v.lengthSqr < deadZone)
             {
                 v = Vector2.Zero;
             }

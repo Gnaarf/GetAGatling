@@ -87,7 +87,7 @@ namespace GameProject2D
 
             if (input.startJumping && collisionShapes.Count != 0)
             {
-                Vector2 avgCollisionPoint = Vector2.average(collisionPoints.ToArray());
+                Vector2 avgCollisionPoint = Vector2.average(collisionPoints.FindAll((p) => (p.Y >= midPoint.Y)).ToArray());
 
                 Vector2 normal = (midPoint - avgCollisionPoint).normalized;
 

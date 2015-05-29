@@ -39,11 +39,23 @@ namespace GameProject2D
         public GameState update()
         {
             selectButton();
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Return) && SelectedButton.Start == currentSelected)
+
+            bool selectKeyIsPressed = false;
+            foreach (uint padIndex in Program.gamePadInputManager.connectedPadIndices)
+            {
+                if (Program.gamePadInputManager.isClicked(GamePadButton.Start, padIndex))
+                {
+                    selectKeyIsPressed = true;
+                    break;
+                }
+            }
+            selectKeyIsPressed |= Keyboard.IsKeyPressed(Keyboard.Key.Return); 
+
+            if (SelectedButton.Start == currentSelected&& selectKeyIsPressed)
             {
                 return GameState.InGame;
             }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.Return) && SelectedButton.Quit == currentSelected)
+            else if (SelectedButton.Quit == currentSelected && selectKeyIsPressed)
             {
                 return GameState.None;
             }
