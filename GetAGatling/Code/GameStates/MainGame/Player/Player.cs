@@ -91,6 +91,10 @@ namespace GameProject2D
                 if(lowerCollisionPoints.Count > 0)
                 {
                     Vector2 avgCollisionPoint = Vector2.average(lowerCollisionPoints.ToArray());
+                    if(avgCollisionPoint.lengthSqr < float.Epsilon)
+                    {
+                        avgCollisionPoint = midPoint + Vector2.Down;
+                    }
 
                     Vector2 normal = (midPoint - avgCollisionPoint).normalized;
 
