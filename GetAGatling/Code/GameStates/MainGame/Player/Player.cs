@@ -87,13 +87,17 @@ namespace GameProject2D
 
             if (input.startJumping && collisionShapes.Count != 0)
             {
-                Vector2 avgCollisionPoint = Vector2.average(collisionPoints.FindAll((p) => (p.Y >= midPoint.Y)).ToArray());
+                List<Vector2> lowerCollisionPoints = collisionPoints.FindAll((p) => (p.Y + (size.Y / 10F) >= midPoint.Y));
+                if(lowerCollisionPoints.Count > 0)
+                {
+                    Vector2 avgCollisionPoint = Vector2.average(lowerCollisionPoints.ToArray());
 
-                Vector2 normal = (midPoint - avgCollisionPoint).normalized;
+                    Vector2 normal = (midPoint - avgCollisionPoint).normalized;
 
-                Vector2 jumpMovement = (Vector2.Up * 2 + normal).normalized * 6F;
+                    Vector2 jumpMovement = (Vector2.Up * 2 + normal).normalized * 6F;
 
-                movement = new Vector2(movement.X + jumpMovement.X, jumpMovement.Y);
+                    movement = new Vector2(movement.X + jumpMovement.X, jumpMovement.Y);
+                }
             }
 
             float friction = 2F;

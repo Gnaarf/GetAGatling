@@ -90,7 +90,7 @@ public struct Vector2
 
 
     //------------------------------------------//
-    //           Arithmetic Functions           //
+    //             Instance Functions           //
     //------------------------------------------//
     public float length { get { return (float)Math.Sqrt(X * X + Y * Y); } }
     public float lengthSqr { get { return X * X + Y * Y; } }
@@ -205,9 +205,7 @@ public struct Vector2
         return new Vector2(v.X / f, v.Y / f);
     }
 
-    //------------------------------------------//
-    //           Arithmetic Operators           //
-    //------------------------------------------//
+    // Equality
     /// <summary>check component-wise</summary>
     public static bool operator ==(Vector2 v1, Vector2 v2)
     {
