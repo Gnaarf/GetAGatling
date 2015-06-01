@@ -8,34 +8,45 @@ namespace GameProject2D
     class MovingPlatform : Platform
     {
         Vector2 startPosition;
-        Vector2 movementDirection;
-        float movementDistance;
+        Vector2 endPosition;
         float speed;
+        bool moveForward;
+
+        static float targetRadiusSqr = 0.1F * 0.1F;
 
         public MovingPlatform(World world, String texture, Vector2 midPoint, Vector2 size, float angle, Vector2 movementEndPoint, float speed)
             : base(world, texture, midPoint, size, angle)
         {
             this.startPosition = midPoint;
-            this.movementDistance = Vector2.distance(midPoint, movementEndPoint);
-            this.movementDirection = (movementEndPoint - midPoint).normalize();
+            this.endPosition = movementEndPoint;
             this.speed = speed;
+            this.moveForward = true;
 
             // bodies without mass cant be applied forces. Therefore MovingPlatform gets mass
             MassData massData = new MassData();
             massData.Center = midPoint;
-            massData.Mass = 10000F;
+            massData.Mass = 0.01F;
             body.SetMass(massData);
         }
 
         public override void update()
         {
-            if ((speed > 0F && Vector2.dot(midPoint - startPosition, movementDirection) > movementDistance)
-                ||(speed < 0F && Vector2.dot(midPoint - startPosition, movementDirection) < 0F))
+            Vector2 target = getTarget();
+
+            if(Vector2.distanceSqr(midPoint, target) <= targetRadiusSqr)
             {
-                speed *= -1F;
+                moveForward = !moveForward;
+                target = getTarget();
             }
 
-            body.SetLinearVelocity(speed * movementDirection);
+            Vector2 toTarget = target - midPoint;
+
+            body.SetLinearVelocity(speed * toTarget.normalize());
+        }
+
+        Vector2 getTarget()
+        {
+            return moveForward ? endPosition : startPosition;
         }
     }
 }

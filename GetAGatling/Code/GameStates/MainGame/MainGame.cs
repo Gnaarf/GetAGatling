@@ -15,8 +15,7 @@ namespace GameProject2D
 
         World PhysicWorld;
         ContactNotifier blaBlubb;
-        Map map = new Map();
-        List<Platform> platforms;
+        Map map;
         AABB worldAABB = new AABB();
 
         Sprite RadarSprite = new Sprite(new Texture("Textures/Radar.png"));
@@ -35,21 +34,14 @@ namespace GameProject2D
 
             pixelSprite.Scale = new Vector2(2, 2);
 
-            platforms = new List<Platform>();
-            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(2F, 3F), new Vector2(10F, 1F), 0F));
-            platforms.Add(new MovingPlatform(PhysicWorld, "Textures/pixel.png", new Vector2(-4F, 5.8F), new Vector2(10F, 1F), 0F, new Vector2(-6F, 8F), 1F));
-            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(8F, 4F), new Vector2(10F, 1F), -Helper.PI / 8F));
-            platforms.Add(new Platform(PhysicWorld, "Textures/pixel.png", new Vector2(-5F, 0F), new Vector2(10F, 1F), -Helper.PI / 2F));
+            map = new Map(PhysicWorld);
         }
 
         public GameState update()
         {   
             playerManager.update(PhysicWorld);
 
-            foreach(Platform platform in platforms)
-            {
-                platform.update();
-            }
+            map.update();
 
             PhysicWorld.Step((float)Program.gameTime.EllapsedTime.TotalSeconds, GameConstants.PHYSIC_VELOCITY_ITERATIONS, GameConstants.PHYSIC_POSITION_ITERATIONS);
 
@@ -85,10 +77,7 @@ namespace GameProject2D
 
 
             // draw the actual entities
-            foreach (Platform platform in platforms)
-            {
-                platform.draw(win, view);
-            }
+            map.draw(win, view);
 
             playerManager.draw(win, view);
         }
