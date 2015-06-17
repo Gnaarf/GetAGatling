@@ -21,7 +21,10 @@ namespace GameProject2D
         static RenderWindow win;
         static View view;
         static GUI gui;
-        
+
+        public static string rootPath = "../../"; // path for development version
+        //public static string rootPath = ""; // path for shipping version
+
         static void Main(string[] args)
         {
             // initialize window and view

@@ -1,14 +1,12 @@
-﻿using Box2DX.Collision;
-using Box2DX.Dynamics;
-using SFML.Graphics;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace GameProject2D
 {
+    [DataContract]
     public abstract class GameObject
     {
-        public abstract Vector2 midPoint { get; protected set; }
+        public virtual Vector2 midPoint{ get; protected set; }
 
         public static Vector2 getAveragePosition(IEnumerable<GameObject> gameObjects)
         {

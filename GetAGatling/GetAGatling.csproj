@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,7 +89,9 @@
     <Compile Include="Code\GameStates\MainGame\Player\Controller\PlayerController.cs" />
     <Compile Include="Code\AnimatedSprite.cs" />
     <Compile Include="Code\GameStates\MainGame\Player\PlayerManager.cs" />
-    <Compile Include="Code\GameStates\MainGame\Weapon.cs" />
+    <Compile Include="Code\GameStates\MainGame\Projectile\Projectile.cs" />
+    <Compile Include="Code\GameStates\MainGame\Weapon\WeaponType.cs" />
+    <Compile Include="Code\GameStates\MainGame\Weapon\Weapon.cs" />
     <Compile Include="Code\Helper.cs" />
     <Compile Include="Code\GUI.cs" />
     <Compile Include="Code\GameStates\IGameState.cs" />

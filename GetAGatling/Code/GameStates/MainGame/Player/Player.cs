@@ -14,7 +14,9 @@ namespace GameProject2D
         public Vector2 size;
         List<Box2DX.Collision.Shape> collisionShapes = new List<Box2DX.Collision.Shape>();
         List<Vector2> collisionPoints = new List<Vector2>();
-            
+
+        Weapon weapon;
+
         PlayerController controller;
 
         public Player(World world, Vector2 midPoint, PlayerController controller)
@@ -46,7 +48,8 @@ namespace GameProject2D
             body.CreateShape(circleDef);
             body.SetMassFromShapes();
 
-            Console.WriteLine(body.GetMass());
+            // weapon
+            weapon = new Weapon(WeaponType.Gatling);
         }
 
         public void update()
